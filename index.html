@@ -45,50 +45,53 @@
  <body class="h-full">
   <main class="w-full h-full overflow-auto" id="main-container">
    <div class="min-h-full flex flex-col items-center justify-center p-8">
-    <h1 id="countdown-title" class="text-5xl font-bold mb-4 text-center">19 de Enero de 2026</h1>
-    <p id="countdown-subtitle" class="text-xl mb-16 text-center opacity-90">Tiempo Restante</p>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl w-full"><!-- Days -->
-     <div class="countdown-unit flex flex-col items-center p-6 rounded-2xl shadow-xl pulse-animation" id="days-card">
-      <div id="days-value" class="text-6xl font-bold mb-2">
-       000
-      </div>
-      <div id="days-label" class="text-lg font-semibold uppercase tracking-wider">
-       Días
-      </div>
-     </div><!-- Hours -->
-     <div class="countdown-unit flex flex-col items-center p-6 rounded-2xl shadow-xl pulse-animation" id="hours-card" style="animation-delay: 0.1s;">
-      <div id="hours-value" class="text-6xl font-bold mb-2">
-       00
-      </div>
-      <div id="hours-label" class="text-lg font-semibold uppercase tracking-wider">
-       Horas
-      </div>
-     </div><!-- Minutes -->
-     <div class="countdown-unit flex flex-col items-center p-6 rounded-2xl shadow-xl pulse-animation" id="minutes-card" style="animation-delay: 0.2s;">
-      <div id="minutes-value" class="text-6xl font-bold mb-2">
-       00
-      </div>
-      <div id="minutes-label" class="text-lg font-semibold uppercase tracking-wider">
-       Minutos
-      </div>
-     </div><!-- Seconds -->
-     <div class="countdown-unit flex flex-col items-center p-6 rounded-2xl shadow-xl pulse-animation" id="seconds-card" style="animation-delay: 0.3s;">
-      <div id="seconds-value" class="text-6xl font-bold mb-2">
-       00
-      </div>
-      <div id="seconds-label" class="text-lg font-semibold uppercase tracking-wider">
-       Segundos
+    <div id="countdown-container" class="rounded-3xl shadow-2xl p-12 max-w-5xl w-full">
+     <h1 id="countdown-title" class="text-5xl font-bold mb-4 text-center">19 de Enero de 2026</h1>
+     <p id="countdown-subtitle" class="text-xl mb-16 text-center opacity-90">Tiempo Restante</p>
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl w-full"><!-- Days -->
+      <div class="countdown-unit flex flex-col items-center p-6 rounded-2xl shadow-lg pulse-animation" id="days-card">
+       <div id="days-value" class="text-6xl font-bold mb-2">
+        000
+       </div>
+       <div id="days-label" class="text-lg font-semibold uppercase tracking-wider">
+        Días
+       </div>
+      </div><!-- Hours -->
+      <div class="countdown-unit flex flex-col items-center p-6 rounded-2xl shadow-lg pulse-animation" id="hours-card" style="animation-delay: 0.1s;">
+       <div id="hours-value" class="text-6xl font-bold mb-2">
+        00
+       </div>
+       <div id="hours-label" class="text-lg font-semibold uppercase tracking-wider">
+        Horas
+       </div>
+      </div><!-- Minutes -->
+      <div class="countdown-unit flex flex-col items-center p-6 rounded-2xl shadow-lg pulse-animation" id="minutes-card" style="animation-delay: 0.2s;">
+       <div id="minutes-value" class="text-6xl font-bold mb-2">
+        00
+       </div>
+       <div id="minutes-label" class="text-lg font-semibold uppercase tracking-wider">
+        Minutos
+       </div>
+      </div><!-- Seconds -->
+      <div class="countdown-unit flex flex-col items-center p-6 rounded-2xl shadow-lg pulse-animation" id="seconds-card" style="animation-delay: 0.3s;">
+       <div id="seconds-value" class="text-6xl font-bold mb-2">
+        00
+       </div>
+       <div id="seconds-label" class="text-lg font-semibold uppercase tracking-wider">
+        Segundos
+       </div>
       </div>
      </div>
-    </div>
-    <div id="complete-message" class="mt-16 text-4xl font-bold text-center" style="display: none;">
-     🎉 ¡El día ha llegado! 🎉
+     <div id="complete-message" class="mt-16 text-4xl font-bold text-center" style="display: none;">
+      🎉 ¡El día ha llegado! 🎉
+     </div>
     </div>
    </div>
   </main>
   <script>
     const defaultConfig = {
-      background_color: "#F4F0E5",
+      background_color: "#FFFFFF",
+      container_background: "#F4F0E5",
       text_color: "#2D68FF",
       card_background: "#2D68FF",
       card_text: "#F4F0E5",
@@ -100,6 +103,7 @@
 
     async function onConfigChange(config) {
       const backgroundColor = config.background_color || defaultConfig.background_color;
+      const containerBackground = config.container_background || defaultConfig.container_background;
       const textColor = config.text_color || defaultConfig.text_color;
       const cardBackground = config.card_background || defaultConfig.card_background;
       const cardText = config.card_text || defaultConfig.card_text;
@@ -107,6 +111,9 @@
 
       // Apply background color
       document.getElementById('main-container').style.backgroundColor = backgroundColor;
+      
+      // Apply container background
+      document.getElementById('countdown-container').style.backgroundColor = containerBackground;
       
       // Apply text colors
       document.getElementById('countdown-title').style.color = textColor;
@@ -117,18 +124,19 @@
       // Apply card styles
       const cards = ['days-card', 'hours-card', 'minutes-card', 'seconds-card'];
       cards.forEach(cardId => {
-        document.getElementById(cardId).style.backgroundColor = cardBackground;
+        const card = document.getElementById(cardId);
+        card.style.backgroundColor = cardBackground; // Blue background for cards
       });
       
       const values = ['days-value', 'hours-value', 'minutes-value', 'seconds-value'];
       const labels = ['days-label', 'hours-label', 'minutes-label', 'seconds-label'];
       
       values.forEach(valueId => {
-        document.getElementById(valueId).style.color = cardText;
+        document.getElementById(valueId).style.color = cardText; // Light text
       });
       
       labels.forEach(labelId => {
-        document.getElementById(labelId).style.color = cardText;
+        document.getElementById(labelId).style.color = cardText; // Light text
       });
     }
 
@@ -176,24 +184,17 @@
               }
             },
             {
+              get: () => config.container_background || defaultConfig.container_background,
+              set: (value) => {
+                config.container_background = value;
+                window.elementSdk.setConfig({ container_background: value });
+              }
+            },
+            {
               get: () => config.text_color || defaultConfig.text_color,
               set: (value) => {
                 config.text_color = value;
                 window.elementSdk.setConfig({ text_color: value });
-              }
-            },
-            {
-              get: () => config.card_background || defaultConfig.card_background,
-              set: (value) => {
-                config.card_background = value;
-                window.elementSdk.setConfig({ card_background: value });
-              }
-            },
-            {
-              get: () => config.card_text || defaultConfig.card_text,
-              set: (value) => {
-                config.card_text = value;
-                window.elementSdk.setConfig({ card_text: value });
               }
             }
           ],
@@ -215,5 +216,5 @@
     updateCountdown();
     countdownInterval = setInterval(updateCountdown, 1000);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b3156f3a01eb6ac',t:'MTc2NjU5MjMyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b316bab06f9b6ac',t:'MTc2NjU5MzE2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
